@@ -10,6 +10,7 @@ const correctMessage = document.getElementById('correct');
 
 let targetNumber;
 let attempts = 0;
+
 const maxNumberOfAttempts = 5;
 
 // Returns a random number from min (inclusive) to max (exclusive)
@@ -25,59 +26,95 @@ function getRandomNumber(min, max) {
 function checkGuess() {
   // Get value from guess input element
   const guess = parseInt(guessInput.value, 10);
-  attempts = attempts + 1;
+//--------------------------------------STRETCH GOAL:
+//LIMITING THE INPUT TO NUMBERS BETWEEN 1 AND 99-----
+  if((guess >= 1) && (guess <= 99)){
+    attempts = attempts + 1;
 
-  hideAllMessages();
+    hideAllMessages();
 
-  if (guess === targetNumber) {
-    numberOfGuessesMessage.style.display = '';
-    numberOfGuessesMessage.innerHTML = `You made ${attempts} guesses`;
+    if (guess === targetNumber) {
+      numberOfGuessesMessage.style.display = '';
+      numberOfGuessesMessage.innerHTML = `You made ${attempts} guesses`;
 
-    correctMessage.style.display = '';
+      correctMessage.style.display = '';
 
-    submitButton.disabled = true;
-    guessInput.disabled = true;
-  }
-
-  if (guess !== targetNumber) {
-    if (guess < targetNumber) {
-      tooLowMessage.style.display = '';
-    } else {
-      tooLowMessage.style.display = '';
+      submitButton.disabled = true;
+      guessInput.disabled = true;
     }
 
-    const remainingAttempts = maxNumberOfAttempts - attempts;
+    if (guess !== targetNumber) {
+      if (guess < targetNumber) {
+          tooLowMessage.style.display = '';
+        } else {
+          //---------------------------------LOGIC ERROR FOUND:
+          //tooLowMessage.style.display = '';
+          tooHighMessage.style.display = '';
+        }
 
-    numberOfGuessesMessage.style.display = '';
-    numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} guesses remaining`;
+      const remainingAttempts = maxNumberOfAttempts - attempts;
+
+      numberOfGuessesMessage.style.display = '';
+//--------------------------------------STRETCH GOAL:
+//HANDLING PLURAL AND SINGULAR IN MESSAGE------------
+    // IF NUMBER OF ATTEMPTS IS DIFFERENT THAN 1 USE PLURAL
+    if(remainingAttempts !== 1){
+        numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} guesses remaining`;
+      }
+    // OTHERWISE USE SIGULAR  
+      else{
+        numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} guess remaining`;
+      }
+    }
+
+//--------------------------------SINTAX ERROR FOUND:
+  //if (attempts ==== maxNumberOfAttempts) {
+    if(attempts === maxNumberOfAttempts) {
+      submitButton.disabled = true;
+      guessInput.disabled = true;
+    }
+    guessInput.value = '';
+    resetButton.style.display = '';
+  } 
+  else{
+    alert("You should enter a value between 1 and 99");
+    // RESET USER-ENTERED VALUE
+    guessInput.value = '';
   }
 
-  if (attempts ==== maxNumberOfAttempts) {
-    submitButton.disabled = true;
-    guessInput.disabled = true;
-  }
-
-  guessInput.value = '';
-
-  resetButton.style.display = '';
+  
 }
+
+
+
 
 function hideAllMessages() {
-  for (let elementIndex = 0; elementIndex <= messages.length; elementIndex++) {
+//---------------------------------LOGIC ERROR FOUND:
+//ElementIndex must be strictly minor than lenght because arrays start counting at 0
+//for (let elementIndex = 0; elementIndex <= messages.length; elementIndex++)
+
+for (let elementIndex = 0; elementIndex < messages.length; elementIndex++) {
     messages[elementIndex].style.display = 'none';
   }
+  
 }
 
-funtion setup() {
+//--------------------------------SINTAX ERROR FOUND:
+//funtion setup() {
+function setup() {
   // Get random number
   targetNumber = getRandomNumber(1, 100);
   console.log(`target number: ${targetNumber}`);
 
   // Reset number of attempts
-  maxNumberOfAttempts = 0;
-
+  //---------------------------------LOGIC ERROR FOUND:
+  // maxNumberOfAttempts = 0;
+  attempts = 0;
+  
   // Enable the input and submit button
-  submitButton.disabeld = false;
+  //--------------------------------SINTAX ERROR FOUND:
+  // submitButton.disabeld = false;
+  submitButton.disabled = false;
   guessInput.disabled = false;
 
   hideAllMessages();
