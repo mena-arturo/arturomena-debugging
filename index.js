@@ -29,6 +29,8 @@ function checkGuess() {
 //--------------------------------------STRETCH GOAL:
 //LIMITING THE INPUT TO NUMBERS BETWEEN 1 AND 99-----
   if((guess >= 1) && (guess <= 99)){
+    //---------------------------------LOGIC ERROR FOUND:
+    //UPDATE # ATTEMPS AFTER INPUT VALIDATIONS TO AVOID COUNTING INVALID ATTEMPS
     attempts = attempts + 1;
 
     hideAllMessages();
@@ -85,9 +87,6 @@ function checkGuess() {
   
 }
 
-
-
-
 function hideAllMessages() {
 //---------------------------------LOGIC ERROR FOUND:
 //ElementIndex must be strictly minor than lenght because arrays start counting at 0
@@ -106,9 +105,13 @@ function setup() {
   targetNumber = getRandomNumber(1, 100);
   console.log(`target number: ${targetNumber}`);
 
-  // Reset number of attempts
+// Reset number of attempts
   //---------------------------------LOGIC ERROR FOUND:
+  // CANNOT MODIFY A CONST VARIABLE
   // maxNumberOfAttempts = 0;
+
+  //---------------------------------LOGIC ERROR FOUND:
+  // TO RESET # ATTEMPTS MODIFY ATTEMPS VARIABLE
   attempts = 0;
   
   // Enable the input and submit button
